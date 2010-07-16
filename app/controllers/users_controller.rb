@@ -166,4 +166,16 @@ class UsersController < ApplicationController
     end
   end
 
+  def distance
+    d = params[:distance].to_i
+    if d > 0 and d <= 1000
+      session[:distance] = d
+      flash[:notice] = "Distance updated."
+    else
+      flash[:error] = "Wrong distance, please enter 1-1000 value."
+    end
+
+    redirect_to users_url
+  end
+
 end

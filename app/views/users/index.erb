@@ -1,6 +1,5 @@
 <% title "User list" %>
 
-
 <% if @users_all > 0 %>
     <p><b>Users all:</b> <%= @users_all %></p>
 
@@ -9,14 +8,13 @@
             <b>Origin is approx.:</b> <%= session[:origin][:address] %> <br />
             (<%= session[:origin][:lat] %>, <%= session[:origin][:lng] %>)
         </p>
-        <p>
-            <b>Distance is: </b><%= session[:distance] %>km 
+        <p><%= link_to "Set new origin", origin_users_url %>,</p>
+        <p><% form_tag distance_users_url do %>
+                <%= submit_tag 'change' %> the distance
+                <%= text_field_tag :distance, session[:distance], {:size=>2, :maxlength=>4} %>,
+           <% end %>
         </p>
-        <p>
-            <%= link_to "Set new origin", origin_users_url %>,
-            change the distance [], or
-            <%= link_to "remove the origin filter", free_users_url %> to see all users.
-        </p>
+        <p>or <%= link_to "remove the origin filter", free_users_url %> to see all users.</p>
         <p>
           Found <b><%= pluralize @users.size, 'user' %></b>
           in distance <%= session[:distance] %>km from the origin.

@@ -6,7 +6,11 @@ ActionController::Routing::Routes.draw do |map|
   map.register "register",  :controller => "users"        , :action => "new"
 
   map.resources :user_sessions
-  map.resources :users, :collection => {:mark=>:get, :showtime=>:get, :origin=>:get, :free=>:get}
+  map.resources :users, :collection => {:mark=>:get,
+                                        :showtime=>:get,
+                                        :origin=>:get,
+                                        :free=>:get,
+                                        :distance=>:post}
   map.resources :articles
   map.resources :comments
   map.root      :articles
