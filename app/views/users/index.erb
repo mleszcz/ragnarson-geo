@@ -1,0 +1,55 @@
+<% title "User list" %>
+
+
+<% if @users_all > 0 %>
+    <p><b>Users all:</b> <%= @users_all %></p>
+
+    <% if session[:origin] %>
+        <p>
+            <b>Origin is approx.:</b> <%= session[:origin][:address] %> <br />
+            (<%= session[:origin][:lat] %>, <%= session[:origin][:lng] %>)
+        </p>
+        <p>
+            <b>Distance is: </b><%= session[:distance] %>km 
+        </p>
+        <p>
+            <%= link_to "Set new origin", origin_users_url %>,
+            change the distance [], or
+            <%= link_to "remove the origin filter", free_users_url %> to see all users.
+        </p>
+        <p>
+          Found <b><%= pluralize @users.size, 'user' %></b>
+          in distance <%= session[:distance] %>km from the origin.
+          <% if @users.size > 0 %>
+            <big><b><%= link_to "See it on the map!", showtime_users_url %></b></big>
+          <% end %>
+        </p>
+    <% else %>
+        <h4><%= link_to "Set the origin filter", origin_users_url %> or <%= link_to "go create more users!", showtime_users_url %></h4>
+    <% end %>
+
+    <% if @users.size > 0 %>
+        <%= will_paginate @users %>
+        <table class="user_listing">
+          <thead>
+            <th>Username</th>
+            <th>Address</th>
+            <th>Latitute</th>
+            <th>Longitude</th>
+          </thead>
+          <tbody>
+          <% for user in @users do %>
+            <tr>
+              <td><%= user.username %></td>
+              <td><%= user.address %></td>
+              <td><%= user.lat %></td>
+              <td><%= user.lng %></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+        <%= will_paginate @users %>
+    <% end %>
+<% else %>
+    <h3>There's no users yet. <%= link_to "Let's go create some!", showtime_users_url %></h3>
+<% end %>

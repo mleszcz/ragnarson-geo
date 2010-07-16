@@ -1,0 +1,19 @@
+<% title @title %>
+
+<%= include_google_javascript %>
+
+<br /><br />
+
+<%= run_map_script do
+      map = Google::Map.new :controls => [:small_map, :map_type],
+                            :center => [52,18],
+                            :zoom => 6
+
+      map.click do |script, location|
+        map.clear_overlays
+        marker = map.add_marker :location => location
+        marker.open_info_window :url => {:controller => :users, :action => @ajax_action}
+      end
+    end %>
+
+<%= google_map :width => 650, :height => 450%>

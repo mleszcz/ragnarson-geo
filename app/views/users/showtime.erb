@@ -1,0 +1,48 @@
+<% title "User locations" %>
+
+<%= include_google_javascript %>
+
+<br />
+
+<p><b>Tip: </b>you can click on the map to create new users.</p>
+
+<h3><%= link_to "Get back to find some other users", users_url %></h3>
+
+<%= run_map_script do
+      map_hash = Hash.new
+      map_hash[:controls] = [:small_map, :map_type]
+      if session[:origin].blank?
+        map_hash[:center] = [52,18]
+        map_hash[:zoom] = 6
+      end
+      map = Google::Map.new map_hash
+
+      # dodajemy obecnych
+      search_hash = Hash.new
+      search_hash[:conditions] = "username <> 'admin'"
+
+      if session[:origin].present?
+        search_hash[:origin] = session[:origin][:address]
+        search_hash[:within] = session[:distance]
+      end
+
+      markers = User.find :all, search_hash
+      markers.collect do |user|
+        map.add_marker :location => [user.lat, user.lng],
+                       :tooltip => {:text => user.username, :show => :always}
+      end
+
+      if session[:origin].present?
+          map.add_marker :location => [session[:origin][:lat], session[:origin][:lng]],
+                         :tooltip => {:text => 'ORIGIN', :show => :always}
+      end
+
+      # klikamy nowych
+      map.click do |script, location|
+        marker = map.add_marker :location => location
+        marker.open_info_window :url => {:controller => :users, :action => :showtime}
+      end
+    end
+%>
+
+<%= google_map :width=>650, :height=>450 %>

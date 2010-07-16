@@ -1,0 +1,3 @@
+module BlogViewExt
+    
+end

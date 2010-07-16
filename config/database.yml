@@ -1,0 +1,23 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: geo
+  pool: 5
+  username: postgres
+  password: aoeu
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: geo
+  pool: 5
+  username: postgres
+  password: aoeu
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: geo
+  pool: 5
+  username: postgres
+  password: aoeu
